@@ -2,6 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"Second blog post",
-    "author": "Momo"
+    "title":"Basketball life",
+    "author": "Hemu",
+    "url":"www.blogs.com",
+    "likes":40
 }
