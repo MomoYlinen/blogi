@@ -1,4 +1,6 @@
 const blogRouter = require("../controllers/blogRoute")
+const _= require('lodash')
+const blogs = require("../models/blogs")
 
 const dummy = (blogs) => {
 return 1
@@ -30,11 +32,21 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    const max = blogs.reduce(function(prev, current) {
-        return (prev.blogs > current.blogs) ? prev : current
-    })
+
+    let most = _.countBy(blogs.map(blog => blog.author))
+    console.log(most)
+
+    let maxValue = Object.entries(most).sort((x,y)=>y[1]-x[1])[0]
+
+    const winner = {
+        "author":maxValue[0],
+        "blogs":maxValue[1]
+    }
+
+    return winner
+
 }
 
 module.exports = {
-    dummy,totalLikes,favoriteBlog
+    dummy,totalLikes,favoriteBlog,mostBlogs
 }
