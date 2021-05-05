@@ -34,7 +34,6 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
 
     let most = _.countBy(blogs.map(blog => blog.author))
-    console.log(most)
 
     let maxValue = Object.entries(most).sort((x,y)=>y[1]-x[1])[0]
 
