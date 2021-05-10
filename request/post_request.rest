@@ -2,8 +2,9 @@ POST  http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Go To Statement Considered Harmful",
-    "author": "Edsger W. Dijkstra",
-    "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    "title": "Users test",
+    "author": "Momo Ylinen",
+    "url": "http://www.google.com",
     "likes": 5,
+    "userId": "60991bb1299662bf310ddab3"
 }
