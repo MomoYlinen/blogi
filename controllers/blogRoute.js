@@ -1,7 +1,7 @@
+const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blogs')
 const User = require('../models/user')
-const Logger = require('../utils/logger')
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -22,20 +22,32 @@ blogRouter.get('/:id', async (request, response, next) => {
     next(exception)
   }
 })
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
   
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', async (request, response) => {
+  const body = request.body
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
 
-    const body = request.body
-
-    const user = await User.findById(body.userId)
-
-    const blog = new Blog ({
-      title:body.title,
-      author:body.author,
-      url:body.url,
-      likes:body.likes,
-      user: user._id,
-    })
+  const blog = new Blog ({
+    title:body.title,
+    author:body.author,
+    url:body.url,
+    likes:body.likes,
+    user: user._id,
+  })
 
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -45,12 +57,22 @@ blogRouter.post('/', async (request, response, next) => {
 })
 
 blogRouter.delete('/:id', async (request, response, next) => {
-  try {
+  const blog = await Blog.findById(request.params.id)
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  
+  if ( blog.user.toString() === user.id ) {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
-  } catch (exception) {
-    next(exception)
+
+  }else{
+    response.status(401).json({error: 'invalid user' })
   }
+  
 })
 
 blogRouter.put('/:id', (request, response, next) => {
