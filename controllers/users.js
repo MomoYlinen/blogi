@@ -3,7 +3,7 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 const Logger = require('../utils/logger')
 
-usersRouter.post('/',async (request, response, next) => {
+usersRouter.post('/',async (request, response) => {
     const body = request.body
 
     console.log(request)
