@@ -27,7 +27,7 @@ const favoriteBlog = (blogs) => {
         "likes": max.likes
     }
 
-return favorite
+    return favorite
 
 }
 
@@ -42,7 +42,7 @@ const mostBlogs = (blogs) => {
         "blogs":maxValue[1]
     }
 
-return winner
+    return winner
 
 }
 
