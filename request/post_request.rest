@@ -1,6 +1,5 @@
 POST  http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJhdG1hbjY5IiwiaWQiOiI2MDk5MjU2ZGNhYmY5NzIwYjVjN2RhNmEiLCJpYXQiOjE2MjA5MzgwOTIsImV4cCI6MTYyMDk0MTY5Mn0.nywe75vZIU1jnYKMxPHmTEsamxXuWMb2MjQo2itYWIE
 
 {
     "title": "Go To Statement Considered Harmful",
